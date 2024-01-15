@@ -1,0 +1,187 @@
+ANS:1--
+Given an integer array nums of unique elements, return all possible 
+subsets
+ (the power set).
+
+class Solution {
+    public List<List<Integer>> subsets(int[] nums) {
+          List<List<Integer>> result = new ArrayList<>();
+        backtrack(nums, 0, new ArrayList<>(), result);
+        return result;
+       
+    }
+     private void backtrack(int[] nums, int start, List<Integer> path, List<List<Integer>> result) 
+     {
+        result.add(new ArrayList<>(path));
+
+        for (int i = start; i < nums.length; i++) {
+            path.add(nums[i]); 
+            backtrack(nums, i + 1, path, result);
+            path.remove(path.size() - 1); 
+        }
+     }
+}
+----
+-------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+ANS:2--
+Given an array nums of distinct integers, return all the possible permutations. You can return the answer in any order.
+class Solution {
+    public List<List<Integer>> permute(int[] nums) {
+        List<List<Integer>> result = new ArrayList<>();
+        List<Integer> currentPermutation = new ArrayList<>();
+        boolean[] used = new boolean[nums.length];
+
+        generatePermutations(nums, used, currentPermutation, result);
+
+        return result;
+    }
+     private static void generatePermutations(int[] nums, boolean[] used, List<Integer> currentPermutation, List<List<Integer>> result) {
+        if (currentPermutation.size() == nums.length) {
+            
+            result.add(new ArrayList<>(currentPermutation));
+            return;
+        }
+
+        for (int i = 0; i < nums.length; i++) {
+            if (!used[i]) {
+         
+                used[i] = true;
+                currentPermutation.add(nums[i]);
+
+                
+                generatePermutations(nums, used, currentPermutation, result);
+
+            
+                used[i] = false;
+                currentPermutation.remove(currentPermutation.size() - 1);
+            }
+        }
+    }
+}
+-----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+ANS:3--
+Given a collection of numbers, nums, that might contain duplicates, return all possible unique permutations in any order.
+
+class Solution {
+    public List<List<Integer>> permuteUnique(int[] nums) {
+         List<List<Integer>> result = new ArrayList<>();
+        List<Integer> currentPermutation = new ArrayList<>();
+        boolean[] used = new boolean[nums.length];
+
+        Arrays.sort(nums); // Sort the array to handle duplicates
+
+        generateUniquePermutations(nums, used, currentPermutation, result);
+
+        return result;
+        
+    }
+      private static void generateUniquePermutations(int[] nums, boolean[] used, List<Integer> currentPermutation, List<List<Integer>> result) {
+        if (currentPermutation.size() == nums.length) {
+           
+            result.add(new ArrayList<>(currentPermutation));
+            return;
+        }
+
+        for (int i = 0; i < nums.length; i++) {
+            if (used[i] || (i > 0 && nums[i] == nums[i - 1] && !used[i - 1])) {
+               
+                continue;
+            }
+
+        
+            used[i] = true;
+            currentPermutation.add(nums[i]);
+
+       
+            generateUniquePermutations(nums, used, currentPermutation, result);
+
+    
+            used[i] = false;
+            currentPermutation.remove(currentPermutation.size() - 1);
+        }
+    }
+}
+-------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+ANS:4--
+Given an integer array nums that may contain duplicates, return all possible 
+subsets
+ (the power set)
+class Solution {
+    public List<List<Integer>> subsetsWithDup(int[] nums) {
+         
+        List<List<Integer>> result = new ArrayList<>();
+        List<Integer> currentSubset = new ArrayList<>();
+
+        Arrays.sort(nums); 
+
+        generateSubsets(nums, 0, currentSubset, result);
+
+        return result;
+    }
+      private static void generateSubsets(int[] nums, int start, List<Integer> currentSubset, List<List<Integer>> result) {
+        result.add(new ArrayList<>(currentSubset));
+
+        for (int i = start; i < nums.length; i++) {
+            if (i > start && nums[i] == nums[i - 1]) {
+                
+                continue;
+            }
+
+        
+            currentSubset.add(nums[i]);
+            generateSubsets(nums, i + 1, currentSubset, result);
+
+            
+            currentSubset.remove(currentSubset.size() - 1);
+        }
+    }
+    }
+-------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+ANS:5--
+Remove Invalid Parentheses--------
+--------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+ANS:6--
+ Letter Combinations of a Phone Number
+class Solution {
+    public List<String> letterCombinations(String digits) {
+    
+        List<String> result = new ArrayList<>();
+        if (digits == null || digits.length() == 0) {
+            return result;
+        }
+
+        Map<Character, String> digitMap = new HashMap<>();
+        digitMap.put('2', "abc");
+        digitMap.put('3', "def");
+        digitMap.put('4', "ghi");
+        digitMap.put('5', "jkl");
+        digitMap.put('6', "mno");
+        digitMap.put('7', "pqrs");
+        digitMap.put('8', "tuv");
+        digitMap.put('9', "wxyz");
+
+        generateCombinations(digits, 0, new StringBuilder(), result, digitMap);
+
+        return result;
+    }
+     private static void generateCombinations(String digits, int index, StringBuilder currentCombination, List<String> result, Map<Character, String> digitMap) {
+        if (index == digits.length()) {
+            result.add(currentCombination.toString());
+            return;
+        }
+
+        char currentDigit = digits.charAt(index);
+        String letters = digitMap.get(currentDigit);
+
+        for (int i = 0; i < letters.length(); i++) {
+     
+            currentCombination.append(letters.charAt(i));
+
+        
+            generateCombinations(digits, index + 1, currentCombination, result, digitMap);
+
+            currentCombination.deleteCharAt(currentCombination.length() - 1);
+        }
+    }
+}
+---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
